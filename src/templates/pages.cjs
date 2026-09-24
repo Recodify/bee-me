@@ -2,6 +2,10 @@
 
 const services = require('../data/services.cjs');
 const projects = require('../data/projects.cjs');
+const testimonials = require('../data/testimonials.cjs');
+const { testimonialSection } = require('./testimonials.cjs');
+const { enquiryForm, homeEnquiry } = require('./enquiry.cjs');
+const { reviewWidget, reviewStrip } = require('./reviews.cjs');
 const { escape: e, arrow, button, link, photo, pageHero, serviceCards, projectCards, cta } = require('./components.cjs');
 const list = items => `<ul class="scope-list">${items.map(item => `<li>${e(item)}</li>`).join('')}</ul>`;
 const sectionHead = (eyebrow, title, aside = '') => `<div class="section-head">
@@ -10,17 +14,17 @@ const sectionHead = (eyebrow, title, aside = '') => `<div class="section-head">
   <h2>${e(title)}</h2>
   </div>${aside}</div>`;
 
-function home() {
+function home(showSamples) {
   return `<section class="home-hero">
   <div class="container home-hero-grid">
   <div class="home-hero-copy">
   <p class="eyebrow">
   <span class="status-dot">
-  </span> Your electrical contracting partner</p>
-  <h1>Good work.<br>Strong connections.</h1>
-  <p class="lead">Electrical installations and ongoing maintenance for contractors, landlords and businesses.</p>
-  <p class="hero-location">Across Somerset and the Bristol area.</p>
-  <div class="button-row">${button('Discuss your project')}${link('Explore our work', '/projects/')}</div>
+  </span> Electrical contractors · Somerset &amp; Bristol</p>
+  <h1>Electrical projects.<span>A contractor you<br>can work with.</span></h1>
+  <p class="lead">Commercial installations, rewires and ongoing maintenance for businesses, landlords and contractors.</p>
+  <p class="hero-location">Based in Banwell. Working across Somerset and the Bristol area.</p>
+  <div class="button-row">${button('Discuss your project', '#enquire')}${link('View our work', '/projects/')}</div>
   </div>
   <figure class="home-hero-photo">${photo('engineer-solar', 'Work Solutions engineer working on building services equipment beside solar inverters', { eager: true })}<figcaption>
   <span>Our people. On your project.</span>
@@ -34,8 +38,9 @@ function home() {
   <span>Planned maintenance</span>
   </div>
   </section>
+  ${reviewStrip(showSamples)}
   <section class="section">
-  <div class="container">${sectionHead('What we do', 'The right support.\nFor the work ahead.', '<p class="section-intro">A project to deliver. A portfolio to look after. Start with the support you need.</p>')}<div class="route-grid">
+  <div class="container">${sectionHead('What we do', 'Electrical projects.\nOngoing maintenance.', '<p class="section-intro">A project to deliver. A portfolio to look after. Start with the support you need.</p>')}<div class="route-grid">
   <a class="route-card" href="/services/">
   <span class="eyebrow">01 / Project delivery</span>
   <h3>From the first circuit<br>to the final handover.</h3>
@@ -52,11 +57,12 @@ function home() {
   </div>
   </section>
   <section class="section section-tint">
-  <div class="container">${sectionHead('Our services', 'Electrical expertise.\nA clear scope of work.', link('All services', '/services/'))}${serviceCards()}</div>
+  <div class="container">${sectionHead('Our services', 'Electrical services for\nyour buildings and projects.', link('All services', '/services/'))}${serviceCards()}</div>
   </section>
   <section class="section">
-  <div class="container">${sectionHead('Selected projects', 'Experience you can explore.', link('View all projects', '/projects/'))}${projectCards(projects.slice(0, 3))}</div>
+  <div class="container">${sectionHead('Selected projects', 'See what we’ve worked on.', link('View all projects', '/projects/'))}${projectCards(projects.slice(0, 3))}</div>
   </section>
+  ${testimonialSection(testimonials, '', showSamples)}
   <section class="section section-dark">
   <div class="container split">
   <div>
@@ -101,11 +107,11 @@ function home() {
   </div>
   </div>
   </div>
-  </section>${cta()}`;
+  </section>${homeEnquiry(photo)}`;
 }
 
 function servicesPage() {
-  return `${pageHero('Our services', 'Electrical work.\nWith the bigger picture in mind.', 'Commercial installations, property rewires and specialist systems, with ongoing maintenance for the buildings you manage.')}<section class="section">
+  return `${pageHero('Our services', 'Electrical installations,\nrewires and maintenance.', 'Commercial installations, property rewires and specialist systems, with ongoing maintenance for the buildings you manage.')}<section class="section">
   <div class="container">${sectionHead('Find your service', 'What does your project need?')}${serviceCards()}<div class="maintenance-banner">
   <div>
   <p class="eyebrow">Looking beyond the installation?</p>
@@ -199,12 +205,12 @@ function maintenance() {
 }
 
 function projectsPage() {
-  return `${pageHero('Our projects', 'The work behind\nthe words.', 'Explore electrical installations, property upgrades and refurbishment work. Each project starts with a different building and a clear scope.')}<section class="section">
+  return `${pageHero('Our projects', 'Electrical projects\nand refurbishments.', 'Explore the work we’ve delivered for contractors, landlords and property owners, from complete rewires to commercial installations.', { image: 'lighting-installation', imageAlt: 'Work Solutions engineer alongside installed pendant lighting', action: 'Discuss a similar project' })}<section class="section">
   <div class="container">${projectCards(projects)}</div>
   </section>${cta('Have a similar project in mind?')}`;
 }
 
-function projectPage(project) {
+function projectPage(project, showSamples) {
   const service = services.find(item => item.slug === project.service);
   return `<div class="container breadcrumbs">
   <a href="/projects/">Projects</a>
@@ -234,7 +240,7 @@ function projectPage(project) {
   <p class="lead">${e(project.result)}</p>
   </div>
   </div>
-  </section>${cta('Let’s discuss your project.', 'Send us a brief or specification and tell us when you are planning the work.')}`;
+  </section>${testimonialSection(testimonials, project.slug, showSamples)}${cta('Let’s discuss your project.', 'Send us a brief or specification and tell us when you are planning the work.')}`;
 }
 
 function about() {
@@ -274,7 +280,7 @@ function about() {
   </section>${cta()}`;
 }
 
-function contact() {
+function contact(showSamples) {
   return `${pageHero('Contact', 'Let’s talk\nabout the work.', 'An upcoming project, a tender enquiry or properties to look after. Tell us what you have in mind.')}<section class="section">
   <div class="container contact-grid">
   <aside>
@@ -296,79 +302,9 @@ function contact() {
   <h3>Have drawings or a specification?</h3>
   <p>Email them with your site location and intended dates. For maintenance, include the number and type of properties.</p>
   </div>
+  ${reviewWidget(showSamples)}
   </aside>
-  <div class="enquiry-panel">
-  <p class="eyebrow">Your enquiry</p>
-  <h2>Tell us a little more.</h2>
-  <p>Use this form to prepare an email, then review and send it from your email app.</p>
-  <noscript>
-  <p>Please <a href="mailto:admin@worksolutions.ltd">email admin@worksolutions.ltd</a> with your name, site location, work required and preferred timing.</p>
-  </noscript>
-  <form id="enquiry-form" hidden>
-  <div class="form-grid">
-  <div>
-  <label for="name">Your name <span>(required)</span>
-  </label>
-  <input id="name" name="name" autocomplete="name" maxlength="120" required>
-  </div>
-  <div>
-  <label for="email">Email <span>(required)</span>
-  </label>
-  <input id="email" name="email" type="email" autocomplete="email" maxlength="254" required>
-  </div>
-  <div>
-  <label for="company">Company <span>(optional)</span>
-  </label>
-  <input id="company" name="company" autocomplete="organization" maxlength="160">
-  </div>
-  <div>
-  <label for="phone">Telephone <span>(optional)</span>
-  </label>
-  <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40">
-  </div>
-  <div>
-  <label for="type">Enquiry type</label>
-  <select id="type" name="type">
-  <option value="project">Project work</option>
-  <option value="maintenance">Ongoing maintenance</option>
-  <option value="other">Other enquiry</option>
-  </select>
-  </div>
-  <div>
-  <label for="location">Site town or postcode <span>(required)</span>
-  </label>
-  <input id="location" name="location" maxlength="160" required>
-  </div>
-  <div class="full">
-  <label for="timing">Preferred timing <span>(optional)</span>
-  </label>
-  <input id="timing" name="timing" maxlength="160" placeholder="For example, planned start month or tender deadline">
-  </div>
-  <div class="full">
-  <label for="message">Work required <span>(required)</span>
-  </label>
-  <textarea id="message" name="message" rows="6" maxlength="4000" required aria-describedby="message-hint">
-  </textarea>
-  <p id="message-hint" class="field-hint">Include the scope and any access requirements. For maintenance, include the number and type of properties.</p>
-  </div>
-  </div>
-  <p class="small">Your details stay in this browser until you send the email. <a href="/privacy/">Privacy information</a>.</p>
-  <button class="button" type="submit">Prepare enquiry ${arrow}</button>
-  </form>
-  <section id="email-draft" class="email-draft" hidden aria-labelledby="draft-heading">
-  <h3 id="draft-heading" tabindex="-1">Your email is ready to review.</h3>
-  <p>Nothing has been sent. Open your email app to send the enquiry, or copy the message into an email to <a href="mailto:admin@worksolutions.ltd">admin@worksolutions.ltd</a>.</p>
-  <label for="draft-body">Enquiry message</label>
-  <textarea id="draft-body" rows="12" readonly>
-  </textarea>
-  <div class="button-row">
-  <a id="open-email" class="button" href="mailto:admin@worksolutions.ltd">Open email app ${arrow}</a>
-  <button id="copy-enquiry" class="button button-secondary" type="button">Copy message</button>
-  </div>
-  <p id="copy-status" role="status">
-  </p>
-  </section>
-  </div>
+  ${enquiryForm()}
   </div>
   </section>`;
 }
@@ -381,23 +317,24 @@ function privacy() {
   <h2>Email and telephone</h2>
   <p>If you email or telephone Work Solutions, the information you provide is available to the business so it can discuss and respond to your enquiry. Email attachments are sent through your chosen email service.</p>
   <h2>Website features</h2>
-  <p>This version of the website does not use advertising trackers, analytics scripts or embedded third-party media. Hosting services may process connection information when delivering website pages.</p>
+  <p>The homepage and contact page load an official Checkatrade review widget. Your browser connects to Checkatrade to request the widget and current rating, sharing connection information such as your IP address and the website origin. Checkatrade controls the widget and its associated services. You can read more in <a href="https://www.checkatrade.com/privacy">Checkatrade’s privacy notice</a>.</p>
+  <p>This website does not add advertising or analytics scripts of its own. Hosting services may process connection information when delivering website pages.</p>
   <h2>Questions about your information</h2>
   <p>Contact <a href="mailto:admin@worksolutions.ltd">admin@worksolutions.ltd</a> to ask about information you have provided to Work Solutions.</p>
   </div>
   </section>`;
 }
 
-function getPages() {
+function getPages({ showSamples = false } = {}) {
   return [
-    { path: '/', title: 'Electrical contractors in Somerset & Bristol', description: 'Electrical installations, rewires and ongoing maintenance for contractors, landlords and businesses across Somerset and the Bristol area.', body: home() },
+    { path: '/', title: 'Electrical contractors in Somerset & Bristol', description: 'Electrical installations, rewires and ongoing maintenance for contractors, landlords and businesses across Somerset and the Bristol area.', body: home(showSamples) },
     { path: '/services/', title: 'Electrical services', description: 'Explore commercial electrical installations, rewires, HMO packages, fire alarms, emergency lighting and maintenance from Work Solutions.', body: servicesPage() },
     ...services.map(service => ({ path: `/services/${service.slug}/`, title: service.title, description: service.description, body: servicePage(service) })),
     { path: '/maintenance/', title: 'Maintenance & landlord compliance', description: 'Discuss electrical testing, EICR programmes, fire alarm maintenance and emergency lighting for your premises or property portfolio.', body: maintenance() },
     { path: '/projects/', title: 'Electrical projects & case studies', description: 'Explore completed electrical projects, from HMO conversions and commercial distribution upgrades to rewires and life-safety systems.', body: projectsPage() },
-    ...projects.map(project => ({ path: `/projects/${project.slug}/`, title: project.title, description: project.summary, body: projectPage(project) })),
+    ...projects.map(project => ({ path: `/projects/${project.slug}/`, title: project.title, description: project.summary, body: projectPage(project, showSamples) })),
     { path: '/about/', title: 'About Work Solutions', description: 'Meet Work Solutions, based in Banwell and working with contractors, landlords and businesses across Somerset and the Bristol area.', body: about() },
-    { path: '/contact/', title: 'Discuss your electrical project', description: 'Contact Work Solutions on 01934 533 217 or prepare an enquiry about electrical projects, refurbishments and ongoing maintenance.', body: contact() },
+    { path: '/contact/', title: 'Discuss your electrical project', description: 'Contact Work Solutions on 01934 533 217 or prepare an enquiry about electrical projects, refurbishments and ongoing maintenance.', body: contact(showSamples) },
     { path: '/privacy/', title: 'Privacy information', description: 'How the Work Solutions website prepares your enquiry and how to contact the business about your information.', body: privacy() },
     { path: '/404/', title: 'Page not found', description: 'Find the electrical services, projects or contact information you need from Work Solutions.', body: `${pageHero('404 / Page not found', 'Let’s get you\nback on track.', 'The page you are looking for could not be found.', { action: 'Back to home', actionHref: '/' })}<div class="container related-links">${link('Explore services', '/services/')}${link('Contact us', '/contact/')}</div>` }
   ];

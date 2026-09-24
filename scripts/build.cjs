@@ -12,7 +12,7 @@ async function build({ output = path.join(root, 'dist'), origin = 'https://www.w
   if (!['https:', 'http:'].includes(siteUrl.protocol) || siteUrl.pathname !== '/' || siteUrl.search || siteUrl.hash || siteUrl.username || siteUrl.password) {
     throw new Error('SITE_URL must be an HTTP(S) origin without a path, query, credentials or fragment.');
   }
-  const pages = getPages();
+  const pages = getPages({ showSamples: !indexable });
   const seen = new Set();
   for (const page of pages) {
     if (!/^\/(?:[a-z0-9-]+\/)*$/.test(page.path) || seen.has(page.path)) throw new Error(`Invalid or duplicate page path: ${page.path}`);

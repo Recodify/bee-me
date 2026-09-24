@@ -51,6 +51,8 @@ test('production metadata uses the configured origin and excludes the not-found 
   const output = await temporaryBuild(context, { origin: 'https://example.com', indexable: true });
   const home = await fs.readFile(path.join(output, 'index.html'), 'utf8');
   assert.match(home, /content="index,follow"/);
+  assert.ok(!home.includes('fictional sample'));
+  assert.ok(!home.includes('Sample testimonials'));
   assert.match(home, /rel="canonical" href="https:\/\/example.com\/"/);
   const sitemap = await fs.readFile(path.join(output, 'sitemap.xml'), 'utf8');
   assert.equal((sitemap.match(/<url>/g) || []).length, getPages().length - 1);
@@ -59,16 +61,25 @@ test('production metadata uses the configured origin and excludes the not-found 
   assert.match(await fs.readFile(path.join(output, 'robots.txt'), 'utf8'), /Sitemap: https:\/\/example.com\/sitemap.xml/);
 });
 
-test('contact page offers a truthful email handoff and labels every enquiry field', async context => {
+test('home and contact pages offer the same short enquiry form with optional additional details', async context => {
   const output = await temporaryBuild(context);
-  const html = await fs.readFile(path.join(output, 'contact/index.html'), 'utf8');
-  assert.match(html, /Nothing has been sent/);
-  assert.match(html, /<noscript>.*mailto:admin@worksolutions.ltd/s);
-  for (const [, id] of html.matchAll(/<(?:input|textarea|select)\b[^>]*\bid="([^"]+)"/g)) {
-    assert.ok(html.includes(`for="${id}"`), `Unlabelled field ${id}`);
+  const { enquiryForm } = require('../src/templates/enquiry.cjs');
+  for (const file of ['index.html', 'contact/index.html']) {
+    const html = await fs.readFile(path.join(output, file), 'utf8');
+    assert.ok(html.includes(enquiryForm()), `${file} must use the shared form`);
+    assert.match(html, /Nothing has been sent/);
+    assert.match(html, /<noscript>.*mailto:admin@worksolutions.ltd/s);
+    for (const [, id] of html.matchAll(/<(?:input|textarea|select)\b[^>]*\bid="([^"]+)"/g)) {
+      assert.ok(html.includes(`for="${id}"`), `Unlabelled field ${id}`);
+    }
+    const form = html.match(/<form id="enquiry-form" hidden>(.*?)<\/form>/s)[1];
+    const initialFields = form.split('<details')[0];
+    assert.equal((initialFields.match(/<(?:input|textarea|select)\b/g) || []).length, 5);
+    for (const name of ['company', 'phone', 'timing']) {
+      assert.match(form, new RegExp(`<details[\\s\\S]*name="${name}"[\\s\\S]*<\\/details>`));
+    }
+    assert.ok(!html.includes('action="/api/'));
   }
-  assert.match(html, /id="enquiry-form" hidden/);
-  assert.ok(!html.includes('action="/api/'));
 });
 
 test('shared assets stay within a small static-site budget', async () => {
@@ -77,6 +88,23 @@ test('shared assets stay within a small static-site budget', async () => {
   assert.ok((await fs.stat(path.join(root, 'styles.css'))).size < 35000, 'CSS exceeds 35 KB');
   for (const file of await fs.readdir(path.join(root, 'images'))) {
     assert.ok((await fs.stat(path.join(root, 'images', file))).size < 180000, `${file} exceeds 180 KB`);
+  }
+});
+
+test('Checkatrade embeds once on home and contact, with snapshots only in draft builds', async context => {
+  for (const indexable of [false, true]) {
+    const output = await temporaryBuild(context, { indexable });
+    for (const file of ['index.html', 'contact/index.html']) {
+      const html = await fs.readFile(path.join(output, file), 'utf8');
+      assert.equal((html.match(/data-company-id="631458"/g) || []).length, 1);
+      assert.match(html, /<script async src="https:\/\/www.checkatrade.com\/static\/js\/reviews-score-widget.js"/);
+      assert.match(html, /class="review-fallback"/);
+      assert.ok(html.includes('href="https://share.google/VTIsFXHhVHUJP8tGp"'));
+      assert.match(html, /href="https:\/\/www.checkatrade.com\/trades\/worksolutionselectricalltd"/);
+      assert.equal(html.includes('Preview snapshot'), !indexable);
+    }
+    const services = await fs.readFile(path.join(output, 'services/index.html'), 'utf8');
+    assert.ok(!services.includes('reviews-score-widget.js'));
   }
 });
 
