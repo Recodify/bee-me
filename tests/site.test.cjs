@@ -113,3 +113,9 @@ test('build rejects URLs unsuitable for canonical origins', async () => {
     await assert.rejects(build({ origin }), /SITE_URL/);
   }
 });
+
+test('Vercel publishes the generated static site directory', async () => {
+  const config = JSON.parse(await fs.readFile(path.resolve(__dirname, '../vercel.json'), 'utf8'));
+  assert.equal(config.outputDirectory, 'dist');
+  assert.equal(path.resolve(__dirname, '..', config.outputDirectory), path.resolve(__dirname, '../dist'));
+});

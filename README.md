@@ -75,6 +75,17 @@ privacy notice. Those decisions are not implied by this local draft.
 Draft builds include `noindex` metadata and a disallowing `robots.txt`. This does not make a hosted draft private;
 use hosting access controls if needed. The site has not been published.
 
+Vercel is configured by `vercel.json` to publish the generated `dist/` directory. Push a non-production branch to the
+connected Git repository to create a preview deployment, or create one from an authenticated local Vercel CLI installation:
+
+```bash
+npm run build
+vercel
+```
+
+Do not set `SITE_INDEXABLE=1` for previews. Vercel's deployment protection should be used if the preview must be private;
+the site's `noindex` metadata and `robots.txt` crawler directive are not access controls.
+
 After editorial review and an explicit decision to publish, an indexable production build can be created with:
 
 ```bash
