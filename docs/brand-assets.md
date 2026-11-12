@@ -5,9 +5,9 @@ They are optimised WebP images; no artwork has been regenerated. The original `p
 
 | Asset | Dimensions | Site use |
 |---|---|---|
-| `public/images/brand/bee-wordmark.webp` | 1024 × 140 | Header |
+| `public/images/brand/bee-wordmark.webp` | 1024 × 140 | Available for compact text-only placements |
 | `public/images/brand/bee-emblem.webp` | 680 × 392 | Decorative illustration on inner pages without a photograph |
-| `public/images/brand/bee-stacked.webp` | 1080 × 532 | Footer and social preview metadata |
+| `public/images/brand/bee-stacked.webp` | 1080 × 532 | Header, footer and social preview metadata |
 
 ## Previews
 

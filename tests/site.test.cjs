@@ -100,7 +100,7 @@ test('Bee identity and all four service families appear in the generated site', 
   const home = await fs.readFile(path.join(output, 'index.html'), 'utf8');
   assert.match(home, /<title>.*Bee M&amp;E<\/title>/);
   assert.match(home, /rel="canonical" href="https:\/\/bee-me.ltd\/"/);
-  assert.match(home, /<header[\s\S]*src="\/images\/brand\/bee-wordmark.webp"[\s\S]*<\/header>/);
+  assert.match(home, /<header[\s\S]*src="\/images\/brand\/bee-stacked.webp"[\s\S]*<\/header>/);
   assert.match(home, /<footer[\s\S]*src="\/images\/brand\/bee-stacked.webp"[\s\S]*<\/footer>/);
   const hero = home.match(/<section class="home-hero">([\s\S]*?)<\/section>/)[1];
   assert.match(hero, /src="\/images\/engineer-solar.webp"/);
