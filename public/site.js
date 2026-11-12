@@ -2,6 +2,28 @@
 
 // Navigation remains visible when JavaScript is unavailable.
 document.documentElement.classList.add('js');
+
+// Change branding only when the hero crosses the sticky header, without a scroll loop.
+const homeHeader = document.querySelector('.site-header-home');
+const homeHero = document.querySelector('.home-hero');
+if (homeHeader && homeHero && typeof IntersectionObserver !== 'undefined') {
+  let heroObserver;
+  let headerHeight = -1;
+  const observeHero = () => {
+    const height = Math.ceil(homeHeader.getBoundingClientRect().height);
+    if (height === headerHeight) return;
+    headerHeight = height;
+    document.documentElement.style.setProperty('--header-offset', `${height + 16}px`);
+    if (heroObserver) heroObserver.disconnect();
+    heroObserver = new IntersectionObserver(([entry]) => {
+      homeHeader.classList.toggle('has-passed-hero', !entry.isIntersecting && entry.boundingClientRect.bottom <= height);
+    }, { rootMargin: `-${height}px 0px 0px 0px`, threshold: 0 });
+    heroObserver.observe(homeHero);
+  };
+  observeHero();
+  if (typeof ResizeObserver !== 'undefined') new ResizeObserver(observeHero).observe(homeHeader);
+}
+
 const menuButton = document.querySelector('.menu-toggle');
 const navigation = document.querySelector('#main-nav');
 if (menuButton && navigation) {

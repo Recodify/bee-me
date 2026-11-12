@@ -5,9 +5,9 @@ They are optimised WebP images; no artwork has been regenerated. The original `p
 
 | Asset | Dimensions | Site use |
 |---|---|---|
-| `public/images/brand/bee-wordmark.webp` | 1024 × 140 | Available for compact text-only placements |
-| `public/images/brand/bee-emblem.webp` | 680 × 392 | Decorative illustration on inner pages without a photograph |
-| `public/images/brand/bee-stacked.webp` | 1080 × 532 | Header, footer and social preview metadata |
+| `public/images/brand/bee-wordmark.webp` | 1024 × 140 | Homepage header while the hero is visible |
+| `public/images/brand/bee-emblem.webp` | 680 × 392 | Large homepage hero and decorative inner-page illustration |
+| `public/images/brand/bee-stacked.webp` | 1080 × 532 | Homepage header after the hero, other headers, footer and social metadata |
 
 ## Previews
 
@@ -35,7 +35,8 @@ convert public/images/bee-logo.png -crop 1080x532+100+0 +repage -quality 90 publ
 ```
 
 The full original composition is no longer referenced by page templates or copied into fresh builds.
-The homepage hero uses project photography. Its previous service strip has been removed; the four service cards
-remain the main introduction to the disciplines, supported by the Services dropdown.
+The homepage hero uses the large emblem without lettering or the service list. As it passes behind the sticky
+header, the wordmark fades into the stacked logo. Scrolling back reverses this; reduced-motion settings disable
+the fade. The four service cards remain the main introduction to the disciplines, supported by the Services dropdown.
 
 Rebuild the website using `npm run build`, then use `npm run preview` to view it locally.
