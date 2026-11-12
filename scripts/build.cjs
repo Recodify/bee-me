@@ -19,7 +19,7 @@ async function build({ output = path.join(root, 'dist'), origin = 'https://bee-m
     seen.add(page.path);
   }
   await fs.mkdir(output, { recursive: true });
-  await fs.cp(path.join(root, 'public'), output, { recursive: true, filter: source => !['bee-logo.png', 'logo.webp'].includes(path.basename(source)) });
+  await fs.cp(path.join(root, 'public'), output, { recursive: true, filter: source => !['bee-logo.png', 'bee-logo.webp', 'logo.webp'].includes(path.basename(source)) });
   for (const page of pages) {
     const file = page.path === '/404/' ? path.join(output, '404.html') : path.join(output, page.path.slice(1), 'index.html');
     await fs.mkdir(path.dirname(file), { recursive: true });

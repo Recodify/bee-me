@@ -46,7 +46,7 @@ p { margin-bottom: 24px; }
 .utility a span { margin-left: 18px; color: var(--yellow); }
 .site-header { background: #000; color: var(--white); border-bottom: 1px solid #292e35; position: relative; z-index: 10; }
 .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 30px; min-height: 106px; }
-.brand { flex-shrink: 0; }
+.brand { flex-shrink: 0; display: inline-flex; align-items: center; min-height: 44px; }
 .brand img { width: 200px; height: auto; }
 nav { display: flex; align-items: center; gap: 29px; margin-left: auto; }
 nav a { text-decoration: none; font-size: .84rem; }
@@ -68,7 +68,7 @@ nav a:hover, nav a[aria-current] { text-decoration: underline; text-decoration-c
 .text-link { display: inline-flex; align-items: center; gap: 18px; font-size: .85rem; font-weight: 600; text-decoration: none; border-bottom: 1px solid currentColor; padding-block: 9px; }
 .text-link:hover { gap: 23px; }
 .menu-toggle { display: none; background: transparent; border: 1px solid var(--line); padding: 9px 13px; gap: 12px; }
-.home-hero { padding-top: 54px; background: #000; color: var(--paper); }
+.home-hero { padding-block: 54px; background: #000; color: var(--paper); }
 .home-hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: stretch; }
 .home-hero-copy { padding: 34px 0 32px; }
 .home-hero h1 { font-size: clamp(3.1rem, 4.8vw, 5.75rem); margin-bottom: 30px; line-height: 1.06; }
@@ -81,11 +81,9 @@ nav a:hover, nav a[aria-current] { text-decoration: underline; text-decoration-c
 .home-hero .text-link { color: var(--paper); }
 .home-hero :focus-visible { outline-color: var(--yellow); }
 .home-hero-photo { background: #000; position: relative; min-height: 490px; overflow: hidden; }
-.home-hero-photo > img { width: 100%; height: 100%; position: absolute; object-fit: contain; object-position: center; padding-bottom: 60px; }
+.home-hero-photo > img { width: 100%; height: 100%; position: absolute; object-fit: cover; object-position: 62% center; }
 .home-hero-photo figcaption { position: absolute; bottom: 0; right: 0; left: 0; background: #16191e; color: var(--paper); padding: 17px 22px; font-size: .8rem; display: flex; justify-content: space-between; }
 .home-hero-photo figcaption span:last-child { color: var(--yellow); }
-.hero-bottom { display: flex; justify-content: space-between; gap: 15px; border-top: 1px solid #363c45; padding-block: 27px; margin-top: 29px; font-size: .85rem; color: #d8dde5; }
-.hero-bottom a::before { content: '+'; color: var(--yellow); margin-right: 10px; }
 .section { padding-block: 92px; }
 .section-tint { background: var(--tint); }
 .section-dark { background: var(--ink); color: var(--paper); }
@@ -154,6 +152,7 @@ nav a:hover, nav a[aria-current] { text-decoration: underline; text-decoration-c
 .site-footer { background: #000; color: #d8dee7; padding-top: 65px; }
 .footer-grid { display: grid; grid-template-columns: 1.3fr .65fr 1.2fr 1fr; gap: 40px; padding-bottom: 55px; }
 .site-footer .brand { display: inline-block; margin-bottom: 20px; }
+.site-footer .brand img { width: 15rem; max-width: 100%; }
 .site-footer h2 { font-size: .68rem; text-transform: uppercase; letter-spacing: .12em; margin: 13px 0 24px; color: #b1bac7; }
 .footer-grid > div > a:not(.brand) { display: block; text-decoration: none; font-size: .8rem; margin-bottom: 10px; overflow-wrap: anywhere; }
 .footer-grid a:hover { text-decoration: underline; }
@@ -163,7 +162,7 @@ nav a:hover, nav a[aria-current] { text-decoration: underline; text-decoration-c
 .footer-bottom { display: flex; justify-content: space-between; border-top: 1px solid #353b45; padding-block: 22px; font-size: .7rem; color: #b1bac7; gap: 24px; }
 .footer-bottom a { text-decoration: none; margin-left: 24px; }
 .breadcrumbs { display: flex; gap: 15px; padding-block: 20px; font-size: .75rem; color: var(--muted); }
-.page-hero { padding-block: 65px; background: #141619; color: var(--white); border-bottom: 1px solid #303843; overflow: hidden; }
+.page-hero { padding-block: 65px; background: #000; color: var(--white); border-bottom: 1px solid #303843; overflow: hidden; }
 .hero-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 70px; align-items: center; }
 .hero-copy .eyebrow { max-width: 450px; }
 .hero-copy .lead { color: #c5cbd4; margin-bottom: 0; }
@@ -171,12 +170,8 @@ nav a:hover, nav a[aria-current] { text-decoration: underline; text-decoration-c
 .hero-photo { position: relative; height: 460px; }
 .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
 .photo-label { color: var(--ink); position: absolute; bottom: 0; left: 0; background: var(--yellow); padding: 10px 16px; font-size: .7rem; }
-.circuit-art { position: relative; height: 280px; opacity: .85; overflow: hidden; }
-.circuit-art > span { position: absolute; width: 220px; height: 170px; border: 1px solid #475263; border-radius: 0 40px 0 0; right: -15px; top: 35px; }
-.circuit-art > span:nth-child(2) { right: 15px; top: 65px; }
-.circuit-art > span:nth-child(3) { right: 45px; top: 95px; }
-.circuit-art b { color: var(--ink); position: absolute; top: 25px; left: 20px; width: 155px; height: 155px; background: var(--yellow); display: flex; flex-direction: column; justify-content: space-between; padding: 20px; font-size: 3.5rem; letter-spacing: -.08em; line-height: 1; font-weight: 600; }
-.circuit-art b span { font-size: .6rem; letter-spacing: 0; line-height: 1.5; }
+.brand-emblem { width: 100%; max-width: 28rem; justify-self: end; }
+.brand-emblem img { width: 100%; height: auto; }
 .scope-list { list-style: none; padding: 0; margin: 0 0 28px; }
 .scope-list li { padding: 17px 0 17px 26px; border-bottom: 1px solid var(--line); position: relative; font-size: .95rem; }
 .scope-list li:first-child { border-top: 1px solid var(--line); }
@@ -281,8 +276,6 @@ form > .small { margin-top: 20px; }
 
 /* Scale the composition at wide CSS viewports, without widening text indefinitely. */
 /* Bee M&E brand details; layouts below preserve the existing wide-screen scaling. */
-.hero-bottom a { color: var(--white); text-decoration: none; flex: 1; }
-.hero-bottom a:hover { color: var(--yellow); }
 .page-hero .eyebrow { color: var(--yellow); }
 .service-card { transition: background-color .18s ease; }
 .service-card:hover { background: #ffe00018; }
@@ -290,8 +283,6 @@ form > .small { margin-top: 20px; }
 .service-card h3 { font-size: 1.8rem; }
 .electrical-packages { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }
 .electrical-packages h3 { font-size: 1.15rem; }
-.circuit-art > span { border-color: #00bdf470; border-radius: 45%; transform: rotate(-25deg); }
-.circuit-art b { box-shadow: 10px 10px 0 #00bdf430; }
 .home-enquiry { border-top: 4px solid var(--yellow); }
 .enquiry-panel { border-top: 4px solid var(--yellow); }
 
@@ -319,7 +310,6 @@ form > .small { margin-top: 20px; }
   .enquiry-panel { padding: 2rem; }
   .form-grid { gap: 1.25rem; }
   .button { padding: 1.1rem 1.5rem; }
-  .circuit-art { transform: scale(1.3); transform-origin: center; }
   .director-grid { max-width: 65rem; }
 }
 
@@ -367,7 +357,6 @@ form > .small { margin-top: 20px; }
   .home-hero .eyebrow { margin-bottom: 26px; font-size: .62rem; }
   .home-hero .lead { max-width: 460px; }
   .home-hero-photo { min-height: 370px; }
-  .hero-bottom { flex-wrap: wrap; justify-content: flex-start; gap: 9px 22px; font-size: .68rem; margin-top: 10px; padding-block: 20px; }
   .section { padding-block: 57px; }
   .section-head { align-items: flex-start; flex-direction: column; gap: 24px; margin-bottom: 30px; }
   .section-intro { max-width: 100%; }
@@ -391,8 +380,8 @@ form > .small { margin-top: 20px; }
   .footer-bottom a { margin-left: 0; margin-right: 18px; }
   .page-hero { padding-block: 40px; }
   .hero-photo { height: 350px; }
+  .brand-emblem { display: none; }
   .page-hero h1 { font-size: clamp(2.65rem, 8.5vw, 4rem); }
-  .circuit-art { display: none; }
   .breadcrumbs { font-size: .68rem; padding-block: 15px; }
   .maintenance-grid { gap: 20px; }
   .maintenance-grid h3 { font-size: 1.2rem; }

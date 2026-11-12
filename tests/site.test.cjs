@@ -85,11 +85,13 @@ test('home and contact pages offer the same short enquiry form with optional add
 test('shipped assets stay within a small static-site budget', async context => {
   const root = await temporaryBuild(context);
   await assert.rejects(fs.access(path.join(root, 'images/bee-logo.png')));
+  await assert.rejects(fs.access(path.join(root, 'images/bee-logo.webp')));
   await assert.rejects(fs.access(path.join(root, 'images/logo.webp')));
   assert.ok((await fs.stat(path.join(root, 'site.js'))).size < 8000, 'Client JavaScript exceeds 8 KB');
   assert.ok((await fs.stat(path.join(root, 'styles.css'))).size < 35000, 'CSS exceeds 35 KB');
-  for (const file of await fs.readdir(path.join(root, 'images'))) {
-    assert.ok((await fs.stat(path.join(root, 'images', file))).size < 180000, `${file} exceeds 180 KB`);
+  for (const file of await fs.readdir(path.join(root, 'images'), { recursive: true, withFileTypes: true })) {
+    if (!file.isFile()) continue;
+    assert.ok((await fs.stat(path.join(file.parentPath, file.name))).size < 180000, `${file.name} exceeds 180 KB`);
   }
 });
 
@@ -98,7 +100,15 @@ test('Bee identity and all four service families appear in the generated site', 
   const home = await fs.readFile(path.join(output, 'index.html'), 'utf8');
   assert.match(home, /<title>.*Bee M&amp;E<\/title>/);
   assert.match(home, /rel="canonical" href="https:\/\/bee-me.ltd\/"/);
-  assert.match(home, /src="\/images\/bee-logo.webp"/);
+  assert.match(home, /<header[\s\S]*src="\/images\/brand\/bee-wordmark.webp"[\s\S]*<\/header>/);
+  assert.match(home, /<footer[\s\S]*src="\/images\/brand\/bee-stacked.webp"[\s\S]*<\/footer>/);
+  const hero = home.match(/<section class="home-hero">([\s\S]*?)<\/section>/)[1];
+  assert.match(hero, /src="\/images\/engineer-solar.webp"/);
+  assert.ok(!hero.includes('/images/brand/'));
+  assert.ok(!home.includes('/images/bee-logo.webp'));
+  assert.ok(!home.includes('hero-bottom'));
+  const serviceIndex = await fs.readFile(path.join(output, 'services/index.html'), 'utf8');
+  assert.match(serviceIndex, /src="\/images\/brand\/bee-emblem.webp"/);
   assert.match(home, /mailto:admin@bee-me.ltd/);
   assert.ok(!home.includes('admin@worksolutions.ltd'));
   const cards = [...home.matchAll(/class="service-card" href="([^"]+)"/g)].map(match => match[1]);

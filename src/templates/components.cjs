@@ -18,7 +18,7 @@ function photo(name, alt, options = {}) {
 }
 
 function pageHero(eyebrow, title, intro, { image = '', imageAlt = '', action = '', actionHref = '/contact/' } = {}) {
-  return `<section class="page-hero${image ? ' with-image' : ''}"><div class="container hero-grid"><div class="hero-copy"><p class="eyebrow">${escape(eyebrow)}</p><h1>${escape(title)}</h1><p class="lead">${escape(intro)}</p>${action ? button(action, actionHref) : ''}</div>${image ? `<div class="hero-photo">${photo(image, imageAlt, { eager: true })}<span class="photo-label">Our team / On site</span></div>` : '<div class="circuit-art" aria-hidden="true"><span></span><span></span><span></span><b>BEE<span>Building services.<br>Working together.</span></b></div>'}</div></section>`;
+  return `<section class="page-hero${image ? ' with-image' : ''}"><div class="container hero-grid"><div class="hero-copy"><p class="eyebrow">${escape(eyebrow)}</p><h1>${escape(title)}</h1><p class="lead">${escape(intro)}</p>${action ? button(action, actionHref) : ''}</div>${image ? `<div class="hero-photo">${photo(image, imageAlt, { eager: true })}<span class="photo-label">Our team / On site</span></div>` : '<div class="brand-emblem" aria-hidden="true"><img src="/images/brand/bee-emblem.webp" width="680" height="392" alt="" decoding="async"></div>'}</div></section>`;
 }
 
 function serviceCards() {
@@ -49,23 +49,23 @@ function layout({ title, description, path, body, indexable = false, origin = 'h
   <meta property="og:description" content="${escape(description)}">
   <meta property="og:type" content="website"><meta property="og:locale" content="en_GB">
   <meta property="og:url" content="${escape(origin + path)}">
-  <meta property="og:image" content="${escape(origin)}/images/bee-logo.webp">
-  <meta property="og:image:alt" content="Bee M&amp;E — electrical and plumbing contractors">
+  <meta property="og:image" content="${escape(origin)}/images/brand/bee-stacked.webp">
+  <meta property="og:image:alt" content="Bee M&amp;E">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="stylesheet" href="/styles.css"><script src="/site.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<div class="utility"><div class="container"><span>Electrical · Plumbing · Heating · Renewables</span><a href="tel:01934533217">01934 533 217 <span aria-hidden="true">↗</span></a></div></div>
+<div class="utility"><div class="container"><span>Based in Banwell · Serving Somerset &amp; Bristol</span><a href="tel:01934533217">01934 533 217 <span aria-hidden="true">↗</span></a></div></div>
 <header class="site-header"><div class="container header-inner">
-  <a class="brand" href="/" aria-label="Bee M&amp;E — Home"><img src="/images/bee-logo.webp" width="1280" height="742" alt="Bee M&amp;E"></a>
+  <a class="brand" href="/" aria-label="Bee M&amp;E — Home"><img src="/images/brand/bee-wordmark.webp" width="1024" height="140" alt="Bee M&amp;E" decoding="async"></a>
   <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" hidden>Menu <span aria-hidden="true">☰</span></button>
   <nav id="main-nav" aria-label="Main navigation">${nav.map(([label, href]) => href === '/services/' ? `<div class="nav-services"><a href="${href}"${current(href)}>${label}</a><details class="service-menu"><summary aria-label="Service pages"><span aria-hidden="true">⌄</span></summary><div class="service-dropdown">${featuredServices.map(service => `<a href="/services/${service.slug}/"${current(`/services/${service.slug}/`)}>${escape(service.title)}</a>`).join('')}</div></details></div>` : `<a href="${href}"${current(href)}>${label}</a>`).join('')}</nav>
   ${button('Discuss your project', '/contact/')}
 </div></header>
 <main id="main">${body}</main>
 <footer class="site-footer"><div class="container footer-grid">
-  <div><a class="brand" href="/" aria-label="Bee M&amp;E — Home"><img src="/images/bee-logo.webp" width="1280" height="742" alt="Bee M&amp;E" loading="lazy"></a><p>Building services.<br>Working together.</p><span class="small">Based in Banwell. Working across Somerset<br>and the Bristol area.</span></div>
+  <div><a class="brand" href="/" aria-label="Bee M&amp;E — Home"><img src="/images/brand/bee-stacked.webp" width="1080" height="532" alt="Bee M&amp;E" loading="lazy" decoding="async"></a><p>Building services.<br>Working together.</p><span class="small">Based in Banwell. Working across Somerset<br>and the Bristol area.</span></div>
   <div><h2>Explore</h2>${nav.map(([label, href]) => `<a href="${href}">${label}</a>`).join('')}</div>
   <div><h2>Our services</h2>${featuredServices.map(service => `<a href="/services/${service.slug}/">${escape(service.title)}</a>`).join('')}<a href="/maintenance/">Maintenance &amp; landlord compliance</a></div>
   <div><h2>Let’s talk</h2><a href="tel:01934533217">01934 533 217</a><a href="mailto:admin@bee-me.ltd">admin@bee-me.ltd</a><address>17 Wolvershill Park<br>Banwell, BS29 6DQ</address></div>

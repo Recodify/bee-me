@@ -26,17 +26,11 @@ function home(showSamples) {
   <p class="hero-location">Based in Banwell. Working across Somerset and the Bristol area.</p>
   <div class="button-row">${button('Discuss your project', '#enquire')}${link('View our work', '/projects/')}</div>
   </div>
-  <figure class="home-hero-photo"><img src="/images/bee-logo.webp" alt="Bee M&amp;E — electrical and plumbing contractors" width="1280" height="742" fetchpriority="high" decoding="async"><figcaption>
-  <span>Four disciplines. One connected team.</span>
+  <figure class="home-hero-photo">${photo('engineer-solar', 'Team member working on building services equipment beside solar inverters', { eager: true })}<figcaption>
+  <span>Practical experience. A connected approach.</span>
   <span aria-hidden="true">↗</span>
   </figcaption>
   </figure>
-  </div>
-  <div class="container hero-bottom">
-  <a href="/services/commercial-electrical/">Electrical</a>
-  <a href="/services/plumbing/">Plumbing</a>
-  <a href="/services/heating/">Heating</a>
-  <a href="/services/renewables/">Renewables</a>
   </div>
   </section>
   ${reviewStrip(showSamples)}
