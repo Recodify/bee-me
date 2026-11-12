@@ -7,7 +7,7 @@ const { layout, escape } = require('../src/templates/components.cjs');
 
 const root = path.resolve(__dirname, '..');
 
-async function build({ output = path.join(root, 'dist'), origin = 'https://www.worksolutions.ltd', indexable = false } = {}) {
+async function build({ output = path.join(root, 'dist'), origin = 'https://bee-me.ltd', indexable = false } = {}) {
   const siteUrl = new URL(origin);
   if (!['https:', 'http:'].includes(siteUrl.protocol) || siteUrl.pathname !== '/' || siteUrl.search || siteUrl.hash || siteUrl.username || siteUrl.password) {
     throw new Error('SITE_URL must be an HTTP(S) origin without a path, query, credentials or fragment.');
@@ -19,7 +19,7 @@ async function build({ output = path.join(root, 'dist'), origin = 'https://www.w
     seen.add(page.path);
   }
   await fs.mkdir(output, { recursive: true });
-  await fs.cp(path.join(root, 'public'), output, { recursive: true });
+  await fs.cp(path.join(root, 'public'), output, { recursive: true, filter: source => !['bee-logo.png', 'logo.webp'].includes(path.basename(source)) });
   for (const page of pages) {
     const file = page.path === '/404/' ? path.join(output, '404.html') : path.join(output, page.path.slice(1), 'index.html');
     await fs.mkdir(path.dirname(file), { recursive: true });
@@ -32,7 +32,7 @@ async function build({ output = path.join(root, 'dist'), origin = 'https://www.w
 }
 
 if (require.main === module) {
-  build({ origin: process.env.SITE_URL || 'https://www.worksolutions.ltd', indexable: process.env.SITE_INDEXABLE === '1' })
+  build({ origin: process.env.SITE_URL || 'https://bee-me.ltd', indexable: process.env.SITE_INDEXABLE === '1' })
     .then(result => process.stdout.write(`Built ${result.pages} pages in ${result.output}\n`))
     .catch(error => { process.stderr.write(`${error.message}\n`); process.exitCode = 1; });
 }

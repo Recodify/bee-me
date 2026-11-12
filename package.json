@@ -1,8 +1,8 @@
 {
-  "name": "work-solutions-website",
+  "name": "bee-me-website",
   "version": "1.0.0",
   "private": true,
-  "description": "Static multipage website for Work Solutions",
+  "description": "Static multipage website for Bee M&E",
   "type": "commonjs",
   "engines": { "node": ">=22" },
   "scripts": {

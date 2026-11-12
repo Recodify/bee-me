@@ -54,7 +54,7 @@ if (form) {
     const fields = new FormData(form);
     const labels = { project: 'Project work', maintenance: 'Ongoing maintenance', other: 'Other enquiry' };
     const enquiryType = labels[fields.get('type')] || labels.other;
-    const subject = `Work Solutions enquiry: ${enquiryType}`;
+    const subject = `Bee M&E enquiry: ${enquiryType}`;
     const message = [
       `Enquiry: ${enquiryType}`,
       `Name: ${String(fields.get('name')).trim()}`,
@@ -66,14 +66,14 @@ if (form) {
       '', 'Work required:', String(fields.get('message')).trim()
     ].join('\n');
     draftBody.value = message;
-    document.querySelector('#open-email').href = `mailto:admin@worksolutions.ltd?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+    document.querySelector('#open-email').href = `mailto:admin@bee-me.ltd?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
     draftSection.hidden = false;
     document.querySelector('#draft-heading').focus();
   });
   document.querySelector('#copy-enquiry').addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(draftBody.value);
-      status.textContent = 'Message copied. Paste it into an email to admin@worksolutions.ltd.';
+      status.textContent = 'Message copied. Paste it into an email to admin@bee-me.ltd.';
     } catch {
       draftBody.focus();
       draftBody.select();

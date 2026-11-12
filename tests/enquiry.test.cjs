@@ -38,7 +38,8 @@ test('enquiry produces an encoded email draft, preserves punctuation and clears 
   assert.ok(nodes['#draft-heading'].focused);
   const url = new URL(nodes['#open-email'].href);
   assert.equal(url.protocol, 'mailto:');
-  assert.equal(url.pathname, 'admin@worksolutions.ltd');
+  assert.equal(url.pathname, 'admin@bee-me.ltd');
+  assert.match(url.searchParams.get('subject'), /Bee M&E enquiry/);
   assert.equal(url.searchParams.get('body'), nodes['#draft-body'].value);
   assert.match(url.searchParams.get('body'), /A & B Ltd/);
   assert.match(url.searchParams.get('body'), /Three properties\nFire alarm testing & remedial work\./);

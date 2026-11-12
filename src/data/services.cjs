@@ -2,7 +2,62 @@
 
 module.exports = [
   {
-    slug: 'commercial-electrical', number: '01', title: 'Commercial electrical',
+    slug: 'plumbing', number: '02', title: 'Plumbing', featured: true,
+    heading: 'Water systems that work.\nSpaces ready to use.',
+    description: 'Commercial plumbing installations, washrooms and refurbishment packages across Somerset and Bristol.',
+    summary: 'Water services, washrooms and plumbing packages for new spaces and existing buildings.',
+    intro: 'From a new washroom to the plumbing package for a full refurbishment, bring the pipework, fixtures and finishing details together with Bee M&E.',
+    audience: 'For businesses, property owners and refurbishment contractors.',
+    scope: ['Hot and cold water installations', 'Commercial washrooms and staff facilities', 'Kitchens and utility spaces', 'Pipework alterations and replacements', 'Plumbing within conversions and refurbishments'],
+    detailTitle: 'Built around the way your space is used.',
+    detail: 'Practical layouts, reliable water supplies and well-coordinated installation matter in every building. Bring us your plans and we will help turn the plumbing brief into a clear package of work.',
+    secondTitle: 'One conversation. A coordinated installation.',
+    second: 'Combine plumbing with electrical and heating requirements from the outset. We plan around access, other trades and the point when your building needs to be ready.',
+    related: 'heating', cta: 'Discuss your plumbing project',
+    questions: [
+      ['Can plumbing form part of a refurbishment package?', 'Yes. Share the full scope, including electrical and heating requirements, so we can discuss how the work fits together.'],
+      ['Do you work in occupied buildings?', 'Tell us how the premises are used and when access is available. We can discuss sequencing and any planned interruptions before work begins.']
+    ]
+  },
+  {
+    slug: 'heating', number: '03', title: 'Heating', featured: true,
+    heading: 'Comfort for your building.\nConfidence in your systems.',
+    description: 'Heating installations, system upgrades and planned care for commercial premises and property projects in Somerset and Bristol.',
+    summary: 'Heating installations, controls and upgrades that keep buildings comfortable and usable.',
+    intro: 'A comfortable workspace starts with a heating system suited to the building. We bring heating installations and upgrades into the wider plan for your premises or property portfolio.',
+    audience: 'For commercial owners, landlords and development teams.',
+    scope: ['Heating installation and replacement projects', 'Radiators and heating distribution', 'Heating controls and zoning', 'System alterations for refurbished spaces', 'Planned servicing and maintenance enquiries'],
+    detailTitle: 'Start with the building. Plan for the people.',
+    detail: 'How a building is occupied, its existing equipment and its changing layout all shape the heating brief. We help bring those requirements together before installation starts.',
+    secondTitle: 'Think beyond the plant room.',
+    second: 'Heating, plumbing and electrical systems work together. Discuss the complete scope with one team, from controls and distribution to access, installation and ongoing care.',
+    related: 'renewables', cta: 'Discuss your heating requirements',
+    questions: [
+      ['Can you help with an existing system?', 'Yes. Share the equipment details, any known issues and what you want to improve so we can discuss an upgrade or maintenance brief.'],
+      ['Can we consider lower-carbon heating?', 'Yes. Bring energy improvements into the conversation alongside your building requirements and explore our renewables service.']
+    ]
+  },
+  {
+    slug: 'renewables', number: '04', title: 'Renewables', featured: true,
+    heading: 'Put your building’s\nenergy to better use.',
+    description: 'Solar, battery storage, EV charging and low-carbon heating project enquiries across Somerset and Bristol.',
+    summary: 'Solar, storage, EV charging and lower-carbon systems planned around your property.',
+    intro: 'Make energy improvements part of a joined-up building services plan. From solar and storage to charging and lower-carbon heating, start with what your property needs to achieve.',
+    audience: 'For businesses, property owners and developers.',
+    image: 'engineer-solar', imageAlt: 'Team member working beside solar inverters on a previous project',
+    scope: ['Solar PV project enquiries', 'Battery storage and energy use', 'EV charging installations', 'Heat pumps and lower-carbon heating enquiries', 'Electrical infrastructure for energy upgrades'],
+    detailTitle: 'A practical route to better energy use.',
+    detail: 'Share how the property is used, your existing systems and the improvements you have in mind. We can discuss the options, site requirements and how the installation fits your wider plans.',
+    secondTitle: 'Connect the technologies. Coordinate the work.',
+    second: 'Energy projects touch more than one system. Bringing electrical, plumbing and heating into the same conversation helps establish the work needed across your building.',
+    project: 'ev-charging-installation', related: 'commercial-electrical', cta: 'Discuss an energy project',
+    questions: [
+      ['Where should we start?', 'Tell us about the property, current energy use and your priorities. Existing drawings and equipment details are helpful, but an initial outline is enough to start.'],
+      ['Can energy upgrades form part of a refurbishment?', 'Yes. Planning the electrical and mechanical requirements early helps coordinate them with the rest of the building works.']
+    ]
+  },
+  {
+    slug: 'commercial-electrical', number: '01', title: 'Electrical', featured: true,
     heading: 'Electrical installations built around your business.',
     description: 'Commercial electrical installations, distribution upgrades, power and lighting for businesses and contractors in Somerset and the Bristol area.',
     summary: 'Power, lighting and distribution for commercial premises and contractor-led projects.',
@@ -18,7 +73,7 @@ module.exports = [
     cta: 'Discuss a commercial project',
     questions: [
       ['Can we send a specification for pricing?', 'Yes. Email your drawings or specification with the site location, proposed scope and intended dates. We can then discuss the information needed to assess the work.'],
-      ['Do you work with main contractors?', 'Yes. Work Solutions has contributed to projects through principal contractors and specialist building services contractors. Contact us to discuss your electrical package.']
+      ['Do you work with main contractors?', 'Yes. Our team has contributed to projects through principal contractors and specialist building services contractors. Contact us to discuss your electrical package.']
     ]
   },
   {

@@ -1,4 +1,8 @@
-# Work Solutions website
+# Bee M&E branding prototype
+
+A visual branding prototype for Bee M&E, adapted from the previous Work Solutions website.
+The new domain and email are draft destinations; existing review profiles and terms are intentionally retained.
+See [the pre-launch revisit list](docs/bee-launch-todo.md) before using this as a live business website.
 
 A standalone static implementation of the approved multipage proposal. Plain HTML, CSS and a small browser script,
 generated with Node.js and CommonJS. There are no package dependencies, remote fonts, or client-side framework.
@@ -9,7 +13,7 @@ Home and Contact load the official external Checkatrade rating widget.
 Requires Node.js 22 or newer. No installation step is needed.
 
 ```bash
-cd /home/sam/code/websites/work-solutions
+cd /home/sam/code/websites/bee
 npm run build
 npm run preview
 ```
@@ -46,7 +50,7 @@ They do not start the website or send any enquiry. Responsive visual inspection 
 | `src/templates/testimonials.cjs` | Conditional rendering of approved, attributed client quotes |
 | `public/styles.css` | Responsive layout, colours and typography |
 | `public/site.js` | Mobile navigation and enquiry email preparation |
-| `public/images/` | Optimised assets copied into the generated site |
+| `public/images/` | Web assets; the original Bee PNG and unused Work Solutions logo are excluded from builds |
 | `scripts/build.cjs` | Static page generation |
 | `scripts/preview.cjs` | Local-only preview server |
 | `tests/` | Integration and browser-script checks |
@@ -89,7 +93,7 @@ the site's `noindex` metadata and `robots.txt` crawler directive are not access 
 After editorial review and an explicit decision to publish, an indexable production build can be created with:
 
 ```bash
-SITE_URL=https://www.worksolutions.ltd SITE_INDEXABLE=1 npm run build
+SITE_URL=https://bee-me.ltd SITE_INDEXABLE=1 npm run build
 ```
 
 Upload only `dist/` to the chosen static host. Do not upload the saved original site, source documents or private project

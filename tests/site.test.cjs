@@ -9,7 +9,7 @@ const { build } = require('../scripts/build.cjs');
 const { getPages } = require('../src/templates/pages.cjs');
 
 async function temporaryBuild(context, options = {}) {
-  const output = await fs.mkdtemp(path.join(os.tmpdir(), 'work-solutions-test-'));
+  const output = await fs.mkdtemp(path.join(os.tmpdir(), 'bee-me-test-'));
   context.after(() => fs.rm(output, { recursive: true, force: true }));
   await build({ output, ...options });
   return output;
@@ -68,7 +68,7 @@ test('home and contact pages offer the same short enquiry form with optional add
     const html = await fs.readFile(path.join(output, file), 'utf8');
     assert.ok(html.includes(enquiryForm()), `${file} must use the shared form`);
     assert.match(html, /Nothing has been sent/);
-    assert.match(html, /<noscript>.*mailto:admin@worksolutions.ltd/s);
+    assert.match(html, /<noscript>.*mailto:admin@bee-me.ltd/s);
     for (const [, id] of html.matchAll(/<(?:input|textarea|select)\b[^>]*\bid="([^"]+)"/g)) {
       assert.ok(html.includes(`for="${id}"`), `Unlabelled field ${id}`);
     }
@@ -82,12 +82,36 @@ test('home and contact pages offer the same short enquiry form with optional add
   }
 });
 
-test('shared assets stay within a small static-site budget', async () => {
-  const root = path.resolve(__dirname, '../public');
+test('shipped assets stay within a small static-site budget', async context => {
+  const root = await temporaryBuild(context);
+  await assert.rejects(fs.access(path.join(root, 'images/bee-logo.png')));
+  await assert.rejects(fs.access(path.join(root, 'images/logo.webp')));
   assert.ok((await fs.stat(path.join(root, 'site.js'))).size < 8000, 'Client JavaScript exceeds 8 KB');
   assert.ok((await fs.stat(path.join(root, 'styles.css'))).size < 35000, 'CSS exceeds 35 KB');
   for (const file of await fs.readdir(path.join(root, 'images'))) {
     assert.ok((await fs.stat(path.join(root, 'images', file))).size < 180000, `${file} exceeds 180 KB`);
+  }
+});
+
+test('Bee identity and all four service families appear in the generated site', async context => {
+  const output = await temporaryBuild(context);
+  const home = await fs.readFile(path.join(output, 'index.html'), 'utf8');
+  assert.match(home, /<title>.*Bee M&amp;E<\/title>/);
+  assert.match(home, /rel="canonical" href="https:\/\/bee-me.ltd\/"/);
+  assert.match(home, /src="\/images\/bee-logo.webp"/);
+  assert.match(home, /mailto:admin@bee-me.ltd/);
+  assert.ok(!home.includes('admin@worksolutions.ltd'));
+  const cards = [...home.matchAll(/class="service-card" href="([^"]+)"/g)].map(match => match[1]);
+  assert.deepEqual(cards, ['/services/commercial-electrical/', '/services/plumbing/', '/services/heating/', '/services/renewables/']);
+  for (const route of cards) {
+    const html = await fs.readFile(path.join(output, route.slice(1), 'index.html'), 'utf8');
+    assert.ok(!html.includes('undefined'));
+    assert.match(html, /Discuss/);
+  }
+  assert.match(home, /https:\/\/www.worksolutions.ltd\/s\/Work-Solutions-Electrical-Ltd-Terms-and-Conditions.pdf/);
+  for (const page of getPages().filter(page => page.path.startsWith('/projects/') && page.path !== '/projects/')) {
+    const html = await fs.readFile(path.join(output, page.path.slice(1), 'index.html'), 'utf8');
+    assert.match(html, /Previous team experience, completed under Work Solutions/);
   }
 });
 
