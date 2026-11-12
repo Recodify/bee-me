@@ -26,7 +26,7 @@ function home(showSamples) {
   <p class="hero-location">Based in Banwell. Working across Somerset and the Bristol area.</p>
   <div class="button-row">${button('Discuss your project', '#enquire')}${link('View our work', '/projects/')}</div>
   </div>
-  <div class="home-hero-emblem"><img src="/images/brand/bee-emblem.webp" width="680" height="392" alt="Bee M&amp;E bee emblem" fetchpriority="high" decoding="async"></div>
+  <div class="home-hero-emblem"><img src="/images/brand/bee-stacked.webp" width="1080" height="532" alt="Bee M&amp;E" fetchpriority="high" decoding="async"></div>
   </div>
   </section>
   ${reviewStrip(showSamples)}

@@ -6,63 +6,69 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 
-function brandingHarness({ supported = true } = {}) {
-  const observers = [];
-  let resize;
-  let height = 106;
-  let compact = false;
+function brandingHarness({ reduced = false, top = 500 } = {}) {
+  let headerHeight = 100;
+  let artworkTop = top;
+  let progress;
+  let writes = 0;
   let offset;
-  const hero = {};
+  const events = {};
+  const frames = [];
+  const motion = { matches: reduced, addEventListener() {} };
   const header = {
-    getBoundingClientRect: () => ({ height }),
-    classList: { toggle(name, value) { assert.equal(name, 'has-passed-hero'); compact = value; } }
+    getBoundingClientRect: () => ({ height: headerHeight }),
+    style: { setProperty(name, value) { progress = Number(value); writes++; } }
   };
+  const artwork = { getBoundingClientRect: () => ({ top: artworkTop, height: 500 }), addEventListener() {} };
   const context = {
     document: {
       documentElement: { classList: { add() {} }, style: { setProperty(name, value) { offset = value; } } },
-      querySelector: selector => ({ '.site-header-home': header, '.home-hero': hero })[selector] || null
+      querySelector: selector => ({ '.site-header-home': header, '.home-hero-emblem img': artwork })[selector] || null
+    },
+    window: {
+      matchMedia: () => motion,
+      addEventListener(name, callback) { events[name] = callback; },
+      requestAnimationFrame(callback) { frames.push(callback); }
     }
   };
-  if (supported) {
-    context.IntersectionObserver = class {
-      constructor(callback, options) { this.callback = callback; this.options = options; observers.push(this); }
-      observe(target) { assert.equal(target, hero); }
-      disconnect() { this.disconnected = true; }
-    };
-    context.ResizeObserver = class {
-      constructor(callback) { resize = callback; }
-      observe(target) { assert.equal(target, header); }
-    };
-  }
   vm.runInNewContext(fs.readFileSync(path.resolve(__dirname, '../public/site.js'), 'utf8'), context);
-  return { observers, compact: () => compact, offset: () => offset, resize(value) { height = value; resize(); } };
+  return {
+    events, frames, progress: () => progress, writes: () => writes, offset: () => offset,
+    top(value) { artworkTop = value; }, height(value) { headerHeight = value; },
+    flush() { while (frames.length) frames.shift()(); }
+  };
 }
 
-test('branding follows the hero boundary in both directions and handles a restored scroll position', () => {
+test('branding crossfades while artwork passes behind the header and reverses on return', () => {
   const harness = brandingHarness();
-  const observer = harness.observers[0];
-  assert.equal(observer.options.rootMargin, '-106px 0px 0px 0px');
-  assert.equal(harness.offset(), '122px');
-  observer.callback([{ isIntersecting: false, boundingClientRect: { bottom: -200 } }]);
-  assert.equal(harness.compact(), true);
-  observer.callback([{ isIntersecting: true, boundingClientRect: { bottom: 400 } }]);
-  assert.equal(harness.compact(), false);
-  observer.callback([{ isIntersecting: false, boundingClientRect: { bottom: 1500 } }]);
-  assert.equal(harness.compact(), false, 'A hero below the viewport has not been passed');
+  assert.equal(harness.progress(), 0);
+  harness.top(-50); // Halfway through a 300px transition, relative to the 100px header.
+  harness.events.scroll(); harness.flush();
+  assert.equal(harness.progress(), .5);
+  harness.top(-200);
+  harness.events.scroll(); harness.flush();
+  assert.equal(harness.progress(), 1);
+  harness.top(500);
+  harness.events.scroll(); harness.flush();
+  assert.equal(harness.progress(), 0);
 });
 
-test('header resizing updates the boundary without creating duplicate observers for unchanged sizes', () => {
+test('scroll events coalesce and unchanged progress does not rewrite styles', () => {
   const harness = brandingHarness();
-  harness.resize(106);
-  assert.equal(harness.observers.length, 1);
-  harness.resize(98);
-  assert.equal(harness.observers[0].disconnected, true);
-  assert.equal(harness.observers[1].options.rootMargin, '-98px 0px 0px 0px');
-  assert.equal(harness.offset(), '114px');
+  harness.events.scroll(); harness.events.scroll(); harness.events.scroll();
+  assert.equal(harness.frames.length, 1);
+  harness.flush();
+  assert.equal(harness.writes(), 1);
+  harness.height(150);
+  harness.events.resize(); harness.flush();
+  assert.equal(harness.offset(), '166px');
 });
 
-test('without observer support the wordmark remains available and the script does not fail', () => {
-  const harness = brandingHarness({ supported: false });
-  assert.equal(harness.observers.length, 0);
-  assert.equal(harness.compact(), false);
+test('restored scroll positions initialise correctly and reduced motion avoids intermediate states', () => {
+  assert.equal(brandingHarness({ top: -600 }).progress(), 1);
+  const harness = brandingHarness({ reduced: true, top: 0 });
+  assert.equal(harness.progress(), 0);
+  harness.top(-100);
+  harness.events.scroll(); harness.flush();
+  assert.equal(harness.progress(), 1);
 });

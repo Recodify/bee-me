@@ -56,7 +56,6 @@ function layout({ title, description, path, body, indexable = false, origin = 'h
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-<div class="utility"><div class="container"><span>Based in Banwell · Serving Somerset &amp; Bristol</span><a href="tel:01934533217">01934 533 217 <span aria-hidden="true">↗</span></a></div></div>
 <header class="site-header${path === '/' ? ' site-header-home' : ''}"><div class="container header-inner">
   <a class="brand${path === '/' ? ' brand-transition' : ''}" href="/" aria-label="Bee M&amp;E — Home">${path === '/' ? '<img class="brand-wordmark" src="/images/brand/bee-wordmark.webp" width="1024" height="140" alt="" aria-hidden="true" decoding="async"><img class="brand-compact" src="/images/brand/bee-stacked.webp" width="1080" height="532" alt="" aria-hidden="true" decoding="async">' : '<img src="/images/brand/bee-stacked.webp" width="1080" height="532" alt="Bee M&amp;E" decoding="async">'}</a>
   <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" hidden>Menu <span aria-hidden="true">☰</span></button>
