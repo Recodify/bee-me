@@ -57,7 +57,7 @@ function layout({ title, description, path, body, indexable = false, origin = 'h
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header${path === '/' ? ' site-header-home' : ''}"><div class="container header-inner">
-  <a class="brand${path === '/' ? ' brand-transition' : ''}" href="/" aria-label="Bee M&amp;E — Home">${path === '/' ? '<img class="brand-wordmark" src="/images/brand/bee-wordmark.webp" width="1024" height="140" alt="" aria-hidden="true" decoding="async"><img class="brand-compact" src="/images/brand/bee-stacked.webp" width="1080" height="532" alt="" aria-hidden="true" decoding="async">' : '<img src="/images/brand/bee-stacked.webp" width="1080" height="532" alt="Bee M&amp;E" decoding="async">'}</a>
+  <a class="brand" href="/" aria-label="Bee M&amp;E — Home"><img src="/images/brand/bee-stacked.webp" width="1080" height="532" alt="Bee M&amp;E" decoding="async"></a>
   <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" hidden>Menu <span aria-hidden="true">☰</span></button>
   <nav id="main-nav" aria-label="Main navigation">${nav.map(([label, href]) => href === '/services/' ? `<div class="nav-services"><a href="${href}"${current(href)}>${label}</a><details class="service-menu"><summary aria-label="Service pages"><span aria-hidden="true">⌄</span></summary><div class="service-dropdown">${featuredServices.map(service => `<a href="/services/${service.slug}/"${current(`/services/${service.slug}/`)}>${escape(service.title)}</a>`).join('')}</div></details></div>` : `<a href="${href}"${current(href)}>${label}</a>`).join('')}</nav>
   ${button('Discuss your project', '/contact/')}

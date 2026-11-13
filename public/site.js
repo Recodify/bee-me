@@ -3,44 +3,6 @@
 // Navigation remains visible when JavaScript is unavailable.
 document.documentElement.classList.add('js');
 
-// Follow the artwork itself, not the hero section's trailing text and padding.
-const homeHeader = document.querySelector('.site-header-home');
-const heroArtwork = document.querySelector('.home-hero-emblem img');
-if (homeHeader && heroArtwork) {
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let pending = false;
-  let lastProgress = -1;
-  let lastHeight = -1;
-  const updateBrand = () => {
-    pending = false;
-    const headerHeight = Math.ceil(homeHeader.getBoundingClientRect().height);
-    const artwork = heroArtwork.getBoundingClientRect();
-    // Crossfade as the first 60% of the artwork moves behind the sticky header.
-    let progress = Math.min(1, Math.max(0, (headerHeight - artwork.top) / Math.max(1, artwork.height * .6)));
-    progress = reducedMotion.matches ? Number(progress >= .5) : Math.round(progress * 1000) / 1000;
-    if (headerHeight !== lastHeight) {
-      document.documentElement.style.setProperty('--header-offset', `${headerHeight + 16}px`);
-      lastHeight = headerHeight;
-    }
-    if (progress !== lastProgress) {
-      homeHeader.style.setProperty('--brand-progress', String(progress));
-      lastProgress = progress;
-    }
-  };
-  const scheduleBrand = () => {
-    if (pending) return;
-    pending = true;
-    window.requestAnimationFrame(updateBrand);
-  };
-  window.addEventListener('scroll', scheduleBrand, { passive: true });
-  window.addEventListener('resize', scheduleBrand, { passive: true });
-  window.addEventListener('pageshow', scheduleBrand);
-  reducedMotion.addEventListener('change', scheduleBrand);
-  heroArtwork.addEventListener('load', scheduleBrand);
-  if (typeof ResizeObserver !== 'undefined') new ResizeObserver(scheduleBrand).observe(homeHeader);
-  updateBrand();
-}
-
 const menuButton = document.querySelector('.menu-toggle');
 const navigation = document.querySelector('#main-nav');
 if (menuButton && navigation) {

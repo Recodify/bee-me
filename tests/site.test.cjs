@@ -106,8 +106,9 @@ test('Bee identity and all four service families appear in the generated site', 
   assert.match(hero, /src="\/images\/brand\/bee-stacked.webp"/);
   assert.ok(!home.includes('class="utility"'));
   assert.match(home, /class="site-header site-header-home"/);
-  assert.match(home, /class="brand-wordmark"/);
-  assert.match(home, /class="brand-compact"/);
+  const header = home.match(/<header[\s\S]*?<\/header>/)[0];
+  assert.equal((header.match(/<img\b/g) || []).length, 1);
+  assert.ok(!header.includes('bee-wordmark.webp'));
   assert.ok(!home.includes('/images/bee-logo.webp'));
   assert.ok(!home.includes('hero-bottom'));
   const serviceIndex = await fs.readFile(path.join(output, 'services/index.html'), 'utf8');
