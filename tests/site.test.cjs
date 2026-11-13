@@ -85,6 +85,7 @@ test('home and contact pages offer the same short enquiry form with optional add
 test('shipped assets stay within a small static-site budget', async context => {
   const root = await temporaryBuild(context);
   await assert.rejects(fs.access(path.join(root, 'images/bee-logo.png')));
+  await assert.rejects(fs.access(path.join(root, 'images/bee-logo-new.png')));
   await assert.rejects(fs.access(path.join(root, 'images/bee-logo.webp')));
   await assert.rejects(fs.access(path.join(root, 'images/logo.webp')));
   assert.ok((await fs.stat(path.join(root, 'site.js'))).size < 8000, 'Client JavaScript exceeds 8 KB');

@@ -1,13 +1,13 @@
 # Bee M&E brand assets
 
 These are direct crops of the supplied artwork, retaining its lettering, illustration and black background.
-They are optimised WebP images; no artwork has been regenerated. The original `public/images/bee-logo.png` is unchanged.
+They are optimised WebP images; no artwork has been regenerated. The current source is `public/images/bee-logo-new.png`; both source images are preserved.
 
 | Asset | Dimensions | Site use |
 |---|---|---|
-| `public/images/brand/bee-wordmark.webp` | 1024 × 140 | Available for standalone wordmark use |
-| `public/images/brand/bee-emblem.webp` | 680 × 392 | Decorative inner-page illustration |
-| `public/images/brand/bee-stacked.webp` | 1080 × 532 | Homepage hero, compact header, other headers, footer and social metadata |
+| `public/images/brand/bee-wordmark.webp` | 1300 × 178 | Available for standalone wordmark use |
+| `public/images/brand/bee-emblem.webp` | 780 × 496 | Decorative inner-page illustration |
+| `public/images/brand/bee-stacked.webp` | 1380 × 674 | Homepage hero, compact header, other headers, footer and social metadata |
 
 ## Previews
 
@@ -17,7 +17,7 @@ They are optimised WebP images; no artwork has been regenerated. The original `p
 
 ### Emblem
 
-![Bee emblem with lightning bolt and tap](../public/images/brand/bee-emblem.webp)
+![Bee emblem with lightning bolt and water droplet](../public/images/brand/bee-emblem.webp)
 
 ### Stacked logo
 
@@ -29,9 +29,9 @@ From the repository root, with ImageMagick installed:
 
 ```bash
 mkdir -p public/images/brand
-convert public/images/bee-logo.png -crop 680x392+300+0 +repage -quality 90 public/images/brand/bee-emblem.webp
-convert public/images/bee-logo.png -crop 1024x140+128+392 +repage -quality 95 public/images/brand/bee-wordmark.webp
-convert public/images/bee-logo.png -crop 1080x532+100+0 +repage -quality 90 public/images/brand/bee-stacked.webp
+convert public/images/bee-logo-new.png -crop 780x496+420+0 +repage -quality 90 public/images/brand/bee-emblem.webp
+convert public/images/bee-logo-new.png -crop 1300x178+170+496 +repage -quality 95 public/images/brand/bee-wordmark.webp
+convert public/images/bee-logo-new.png -crop 1380x674+120+0 +repage -quality 90 public/images/brand/bee-stacked.webp
 ```
 
 The full original composition is no longer referenced by page templates or copied into fresh builds.
